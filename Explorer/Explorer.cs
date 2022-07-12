@@ -21,7 +21,7 @@ namespace Explorer
                 {
                     _path = value;
                 }
-                else
+                else if(!File.Exists(value))
                 {
                     _path = EMPTYDATA;
                 }
@@ -36,7 +36,6 @@ namespace Explorer
 
         public void SetPathToParent()
         {
-
             if (Path != EMPTYDATA)
             {
                 var par = Directory.GetParent(Path);
@@ -54,13 +53,19 @@ namespace Explorer
                 string[] dri = new string[drives.Length];
                 for (int i = 0; i < drives.Length; i++)
                 {
-                    dri[i] = drives[i].Name;
+                    dri[i] = drives[i].Name;//.Substring(0, drives[i].Name.Length-1);
                 }
                 return dri;
             }
             try
             {
-                return Directory.GetFileSystemEntries(Path);
+                var entries = Directory.GetFileSystemEntries(Path);
+                string[] names = new string[entries.Length];
+                for (int i = 0; i < entries.Length; i++)
+                {
+                    names[i] = CutPath(entries[i]);
+                }
+                return names;
             }
             catch
             {
@@ -72,6 +77,11 @@ namespace Explorer
                     return new string[] { }; 
                 return SetFilesAndFolders();
             }
+        }
+
+        private string CutPath(string enter)
+        {
+            return enter;
         }
     }
 }

@@ -5,6 +5,7 @@ namespace Explorer
     public partial class MainForm : Form
     {
         private Explorer explorer;
+        private string[] elementPaths;
 
         public MainForm()
         {
@@ -14,8 +15,17 @@ namespace Explorer
         
         private void UpdateElements()
         {
+            elementPaths = explorer.SetFilesAndFolders();
+
             FileListBox.Items.Clear();
-            FileListBox.Items.AddRange(explorer.SetFilesAndFolders());
+
+            foreach (var elem in elementPaths)
+            {
+                if (elem[^1] == '\\')
+                    FileListBox.Items.Add(elem);
+                else
+                    FileListBox.Items.Add(elem.Substring(elem.LastIndexOf('\\') + 1));
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -29,7 +39,7 @@ namespace Explorer
             {
                 if(FileListBox.SelectedItem is string newPath)
                 {
-                    explorer.Path = newPath;
+                    explorer.Path = elementPaths[FileListBox.SelectedIndex];
                     UpdateElements();
                 }
             }
@@ -37,7 +47,8 @@ namespace Explorer
 
         private void OnBackButtonClick(object sender, EventArgs e)
         {
-            SetPathToParent();
+            explorer.SetPathToParent();
+            UpdateElements();
         }
     }
 }
