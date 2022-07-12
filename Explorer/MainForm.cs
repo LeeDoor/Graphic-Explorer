@@ -37,15 +37,7 @@ namespace Explorer
 
         private void OnBackButtonClick(object sender, EventArgs e)
         {
-            if (Directory.Exists(explorer.Path))
-            {
-                var par = Directory.GetParent(explorer.Path);
-                if (par != null)
-                    explorer.Path = par.FullName;
-                else
-                    explorer.Path = Explorer.EMPTYDATA;
-                UpdateElements();
-            }
+            SetPathToParent();
         }
     }
 }

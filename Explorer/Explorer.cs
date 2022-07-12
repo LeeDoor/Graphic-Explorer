@@ -8,7 +8,7 @@ namespace Explorer
 {
     public class Explorer
     {
-        public const string EMPTYDATA = "EMPTY";
+        public const string EMPTYDATA = "";
         private DriveInfo[] drives;
         private string? _path;
         public string Path {
@@ -32,6 +32,19 @@ namespace Explorer
         {
             drives = DriveInfo.GetDrives();
             Path = EMPTYDATA;
+        }
+
+        public void SetPathToParent()
+        {
+
+            if (Path != EMPTYDATA)
+            {
+                var par = Directory.GetParent(Path);
+                if (par != null)
+                    Path = par.FullName;
+                else
+                    Path = EMPTYDATA;
+            }
         }
 
         public string[] SetFilesAndFolders()
