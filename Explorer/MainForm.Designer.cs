@@ -39,6 +39,7 @@
             this.DirectoryTextBox.Name = "DirectoryTextBox";
             this.DirectoryTextBox.Size = new System.Drawing.Size(426, 23);
             this.DirectoryTextBox.TabIndex = 0;
+            this.DirectoryTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.OnDirectoryTextBoxKeyPress);
             // 
             // FileListBox
             // 
@@ -81,7 +82,7 @@
             this.MinimumSize = new System.Drawing.Size(500, 1000);
             this.Name = "MainForm";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.OnForm1Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

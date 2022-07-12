@@ -4,7 +4,22 @@ namespace Explorer
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// object of explorer
+        /// </summary>
         private Explorer explorer;
+
+        /// <summary>
+        /// this list contains the information that our list box will display. 
+        /// but unlike the Items property in the Listbox, this array contains 
+        /// the full paths to the files, while Items contains only the names 
+        /// of files and folders for a more beautiful display
+        /// 
+        /// этот список содержит ту информацию, которую будет отображать наш list box . 
+        /// но в отличие от свойства Items в Listbox этот массив содержит полные пути до 
+        /// файлов, в то время как Items содержит только имена файлов и папок для более 
+        /// красивого отображения
+        /// </summary>
         private string[] elementPaths;
 
         public MainForm()
@@ -13,9 +28,12 @@ namespace Explorer
             explorer = new Explorer();
         }
         
+        /// <summary>
+        /// function updates elements in listbox
+        /// </summary>
         private void UpdateElements()
         {
-            elementPaths = explorer.SetFilesAndFolders();
+            elementPaths = explorer.GetFilesAndFolders();
 
             FileListBox.Items.Clear();
 
@@ -26,13 +44,20 @@ namespace Explorer
                 else
                     FileListBox.Items.Add(elem.Substring(elem.LastIndexOf('\\') + 1));
             }
+
+            DirectoryTextBox.Text = explorer.Path;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void OnForm1Load(object sender, EventArgs e)
         {
             UpdateElements();
         }
 
+        /// <summary>
+        /// when we want to enter current folder
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnFileListBoxDoubleClick(object sender, EventArgs e)
         {
             if(FileListBox.SelectedItems.Count != 0)
@@ -45,9 +70,31 @@ namespace Explorer
             }
         }
 
+        /// <summary>
+        /// when we want to move back
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnBackButtonClick(object sender, EventArgs e)
         {
             explorer.SetPathToParent();
+            UpdateElements();
+        }
+
+        /// <summary>
+        /// when we press enter on a pathline box to enter our own path
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnDirectoryTextBoxKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != '\r') 
+                return;
+            var newPath = DirectoryTextBox.Text;
+            if (Directory.Exists(newPath))
+            {
+                explorer.Path = newPath;
+            }
             UpdateElements();
         }
     }
