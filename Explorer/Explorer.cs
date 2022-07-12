@@ -33,6 +33,7 @@ namespace Explorer
             }
             catch
             {
+                MessageBox.Show("forbidden folder");
                 var par = Directory.GetParent(Path);
                 if (par != null)
                     Path = par.FullName;
