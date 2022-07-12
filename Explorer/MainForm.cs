@@ -46,6 +46,7 @@ namespace Explorer
             }
 
             DirectoryTextBox.Text = explorer.Path;
+            Text = explorer.Path;
         }
 
         private void OnForm1Load(object sender, EventArgs e)
