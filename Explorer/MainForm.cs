@@ -9,6 +9,7 @@ namespace Explorer
         public MainForm()
         {
             InitializeComponent();
+            explorer = new Explorer();
         }
         
         private void UpdateElements()
@@ -19,7 +20,6 @@ namespace Explorer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            explorer = new Explorer();
             UpdateElements();
         }
 
@@ -29,12 +29,22 @@ namespace Explorer
             {
                 if(FileListBox.SelectedItem is string newPath)
                 {
-                    if (Directory.Exists(newPath))
-                    {
-                        explorer.Path = newPath;
-                        UpdateElements();
-                    }
+                    explorer.Path = newPath;
+                    UpdateElements();
                 }
+            }
+        }
+
+        private void OnBackButtonClick(object sender, EventArgs e)
+        {
+            if (Directory.Exists(explorer.Path))
+            {
+                var par = Directory.GetParent(explorer.Path);
+                if (par != null)
+                    explorer.Path = par.FullName;
+                else
+                    explorer.Path = Explorer.EMPTYDATA;
+                UpdateElements();
             }
         }
     }

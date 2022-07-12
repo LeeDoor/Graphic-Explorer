@@ -8,17 +8,35 @@ namespace Explorer
 {
     public class Explorer
     {
+        public const string EMPTYDATA = "EMPTY";
         private DriveInfo[] drives;
-        public string Path { get; set; } = "";
+        private string? _path;
+        public string Path {
+            get { 
+                return _path ?? EMPTYDATA; 
+            }
+            set
+            {
+                if (Directory.Exists(value))
+                {
+                    _path = value;
+                }
+                else
+                {
+                    _path = EMPTYDATA;
+                }
+            }
+        }
 
         public Explorer()
         {
-            this.drives = DriveInfo.GetDrives();
+            drives = DriveInfo.GetDrives();
+            Path = EMPTYDATA;
         }
 
         public string[] SetFilesAndFolders()
         {
-            if (Path == "")
+            if (Path == EMPTYDATA)
             {
                 string[] dri = new string[drives.Length];
                 for (int i = 0; i < drives.Length; i++)
