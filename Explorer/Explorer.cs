@@ -110,5 +110,15 @@ namespace Explorer
                 return GetFilesAndFolders();
             }
         }
+
+        public void CreateFolder(string folderName)
+        {
+            Directory.CreateDirectory(Path + '\\' + folderName);
+        }
+
+        public void CreateFile(string file)
+        {
+            File.Create(Path + file + ".txt");
+        }
     }
 }

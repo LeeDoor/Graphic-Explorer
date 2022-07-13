@@ -28,9 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.DirectoryTextBox = new System.Windows.Forms.TextBox();
             this.FileListBox = new System.Windows.Forms.ListBox();
+            this.ElementContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.CreateFolderMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreateFileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BackButton = new System.Windows.Forms.Button();
+            this.ElementContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // DirectoryTextBox
@@ -44,6 +49,7 @@
             // FileListBox
             // 
             this.FileListBox.ColumnWidth = 20;
+            this.FileListBox.ContextMenuStrip = this.ElementContextMenu;
             this.FileListBox.FormattingEnabled = true;
             this.FileListBox.ItemHeight = 15;
             this.FileListBox.Items.AddRange(new object[] {
@@ -56,6 +62,28 @@
             this.FileListBox.Size = new System.Drawing.Size(460, 904);
             this.FileListBox.TabIndex = 1;
             this.FileListBox.DoubleClick += new System.EventHandler(this.OnFileListBoxDoubleClick);
+            // 
+            // ElementContextMenu
+            // 
+            this.ElementContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CreateFolderMenuItem,
+            this.CreateFileMenuItem});
+            this.ElementContextMenu.Name = "ElementContextMenu";
+            this.ElementContextMenu.Size = new System.Drawing.Size(190, 70);
+            // 
+            // CreateFolderMenuItem
+            // 
+            this.CreateFolderMenuItem.Name = "CreateFolderMenuItem";
+            this.CreateFolderMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.CreateFolderMenuItem.Text = "Create folder";
+            this.CreateFolderMenuItem.Click += new System.EventHandler(this.OnCreateFolderMenuItemClick);
+            // 
+            // CreateFileMenuItem
+            // 
+            this.CreateFileMenuItem.Name = "CreateFileMenuItem";
+            this.CreateFileMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.CreateFileMenuItem.Text = "Create text document";
+            this.CreateFileMenuItem.Click += new System.EventHandler(this.OnCreateFileMenuItemClick);
             // 
             // BackButton
             // 
@@ -83,6 +111,7 @@
             this.Name = "MainForm";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.OnForm1Load);
+            this.ElementContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,5 +122,8 @@
         private TextBox DirectoryTextBox;
         private ListBox FileListBox;
         private Button BackButton;
+        private ContextMenuStrip ElementContextMenu;
+        private ToolStripMenuItem CreateFolderMenuItem;
+        private ToolStripMenuItem CreateFileMenuItem;
     }
 }

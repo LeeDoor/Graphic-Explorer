@@ -98,5 +98,20 @@ namespace Explorer
             }
             UpdateElements();
         }
+
+        #region Context menu buttons
+        private void OnCreateFolderMenuItemClick(object sender, EventArgs e)
+        {
+            
+            explorer.CreateFolder("new folder");
+            UpdateElements();
+        }
+
+        private void OnCreateFileMenuItemClick(object sender, EventArgs e)
+        {
+            explorer.CreateFile("new text file");
+            UpdateElements();
+        }
+        #endregion
     }
 }
