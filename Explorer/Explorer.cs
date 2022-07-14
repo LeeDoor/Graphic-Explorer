@@ -111,11 +111,20 @@ namespace Explorer
             }
         }
 
+        /// <summary>
+        /// function creates folder with given name in current directory
+        /// </summary>
+        /// <param name="folderName">name of folder</param>
         public void CreateFolder(string folderName)
         {
             Directory.CreateDirectory(Path + '\\' + folderName);
         }
 
+        /// <summary>
+        /// creates text file in current directory with given name
+        /// name should contain expantion like file.txt
+        /// </summary>
+        /// <param name="fileName">file name</param>
         public void CreateFile(string fileName)
         {
             var file = File.Create(Path + '\\' + fileName);

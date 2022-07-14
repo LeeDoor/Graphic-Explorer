@@ -139,10 +139,10 @@ namespace Explorer
 
             ElementContextMenu.Items.AddRange(new[] { RenameItem, DeleteItem, CopyItem, InfoItem });
 
-            //RenameItem.Click = 
-            //DeleteItem.Click = 
-            //CopyItem.Click   = 
-            //InfoItem.Click   = 
+            //RenameItem.Click += 
+            //DeleteItem.Click += 
+            //CopyItem.Click   += 
+            InfoItem.Click += OnInfoItemClick;
         }
 
         private void AddCommonButtonsContext()
@@ -152,11 +152,11 @@ namespace Explorer
 
             ElementContextMenu.Items.AddRange(new[] { createFolderItem, createFileItem });
 
-            createFolderItem.Click += OnCreateFolderMenuItemClick;
-            createFileItem.Click += OnCreateFileMenuItemClick;
+            createFolderItem.Click += OnCreateFolderItemClick;
+            createFileItem.Click += OnCreateFileItemClick;
         }
 
-        private void OnCreateFolderMenuItemClick(object sender, EventArgs e)
+        private void OnCreateFolderItemClick(object sender, EventArgs e)
         {
             using (var form = new TitleEnterMenu(true))
             {
@@ -170,7 +170,7 @@ namespace Explorer
             }
         }
 
-        private void OnCreateFileMenuItemClick(object sender, EventArgs e)
+        private void OnCreateFileItemClick(object sender, EventArgs e)
         {
             using (var form = new TitleEnterMenu(false))
             {
@@ -180,6 +180,17 @@ namespace Explorer
                     string title = form.title;
                     explorer.CreateFile(title);
                     UpdateElements();
+                }
+            }
+        }
+
+        private void OnInfoItemClick(object sender, EventArgs e)
+        {
+            if(elementPaths[FileListBox.SelectedIndex] is string path)
+            {
+                using (var form = new Features(path))
+                {
+                    var result = form.ShowDialog();
                 }
             }
         }

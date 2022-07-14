@@ -77,14 +77,14 @@
             this.CreateFolderMenuItem.Name = "CreateFolderMenuItem";
             this.CreateFolderMenuItem.Size = new System.Drawing.Size(189, 22);
             this.CreateFolderMenuItem.Text = "Create folder";
-            this.CreateFolderMenuItem.Click += new System.EventHandler(this.OnCreateFolderMenuItemClick);
+            this.CreateFolderMenuItem.Click += new System.EventHandler(this.OnCreateFolderItemClick);
             // 
             // CreateFileMenuItem
             // 
             this.CreateFileMenuItem.Name = "CreateFileMenuItem";
             this.CreateFileMenuItem.Size = new System.Drawing.Size(189, 22);
             this.CreateFileMenuItem.Text = "Create text document";
-            this.CreateFileMenuItem.Click += new System.EventHandler(this.OnCreateFileMenuItemClick);
+            this.CreateFileMenuItem.Click += new System.EventHandler(this.OnCreateFileItemClick);
             // 
             // BackButton
             // 
