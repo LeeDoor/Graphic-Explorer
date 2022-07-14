@@ -65,10 +65,17 @@ namespace Explorer
         {
             if(FileListBox.SelectedItems.Count != 0)
             {
-                if(FileListBox.SelectedItem is string)
+                if(FileListBox.SelectedItem is string str)
                 {
-                    explorer.Path = elementPaths[FileListBox.SelectedIndex];
-                    UpdateElements();
+                    if (Directory.Exists(elementPaths[FileListBox.SelectedIndex]))
+                    {
+                        explorer.Path = elementPaths[FileListBox.SelectedIndex];
+                        UpdateElements();
+                    }
+                    else if (File.Exists(elementPaths[FileListBox.SelectedIndex]))
+                    {
+                        OnOpenItemClick(null, null);
+                    }
                 }
             }
         }
@@ -102,7 +109,6 @@ namespace Explorer
         }
 
         #region Context menu buttons
-
         /// <summary>
         /// when context menu opens, sets all buttons according to selected item if it is
         /// </summary>
@@ -167,8 +173,24 @@ namespace Explorer
 
             ElementContextMenu.Items.AddRange(new[] { OpenItem, OpenNotepadItem });
 
-            //OpenItem.Click = 
+            OpenItem.Click += OnOpenItemClick;
             OpenNotepadItem.Click += OnOpenNotepadItemClick;
+        }
+
+        /// <summary>
+        /// OPEN clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnOpenItemClick(object sender, EventArgs e)
+        {
+            if (elementPaths[FileListBox.SelectedIndex] is string path)
+            {
+                using (var form = new TextEditorForm(path))
+                {
+                    form.ShowDialog();
+                }
+            }
         }
 
         /// <summary>
