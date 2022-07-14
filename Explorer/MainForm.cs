@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO;
 
 namespace Explorer
@@ -139,28 +140,14 @@ namespace Explorer
         }
 
         /// <summary>
-        /// adds buttons to context menu if we have file as selected item
-        /// </summary>
-        private void AddFileButtonsContext()
-        {
-            ToolStripMenuItem OpenItem = new ToolStripMenuItem("open");
-            ToolStripMenuItem OpenNotepadItem = new ToolStripMenuItem("open with notepad");
-
-            ElementContextMenu.Items.AddRange(new[] { OpenItem, OpenNotepadItem });
-
-            //OpenItem.Click = 
-            //OpenNotepadItem.Click = 
-        }
-
-        /// <summary>
         /// adds buttons to context menu if we have anything selected 
         /// </summary>
         private void AddSelectedButtonsContext()
         {
             ToolStripMenuItem RenameItem = new ToolStripMenuItem("rename");
             ToolStripMenuItem DeleteItem = new ToolStripMenuItem("delete");
-            ToolStripMenuItem CopyItem  = new ToolStripMenuItem("copy");
-            ToolStripMenuItem InfoItem  = new ToolStripMenuItem("features");
+            ToolStripMenuItem CopyItem = new ToolStripMenuItem("copy");
+            ToolStripMenuItem InfoItem = new ToolStripMenuItem("features");
 
             ElementContextMenu.Items.AddRange(new[] { RenameItem, DeleteItem, CopyItem, InfoItem });
 
@@ -171,6 +158,36 @@ namespace Explorer
         }
 
         /// <summary>
+        /// adds buttons to context menu if we have file as selected item
+        /// </summary>
+        private void AddFileButtonsContext()
+        {
+            ToolStripMenuItem OpenItem = new ToolStripMenuItem("open");
+            ToolStripMenuItem OpenNotepadItem = new ToolStripMenuItem("open with notepad");
+
+            ElementContextMenu.Items.AddRange(new[] { OpenItem, OpenNotepadItem });
+
+            //OpenItem.Click = 
+            OpenNotepadItem.Click += OnOpenNotepadItemClick;
+        }
+
+        /// <summary>
+        /// OPEN WITH NOTEPAD clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnOpenNotepadItemClick(object sender, EventArgs e)
+        {
+            if (elementPaths[FileListBox.SelectedIndex] is String path)
+            {
+                if (File.Exists(path))
+                {
+                    Process.Start("C:\\Windows\\System32\\notepad.exe", path);
+                }
+            }
+        }
+
+        /// <summary>
         /// RENAME clicked
         /// </summary>
         /// <param name="sender"></param>
@@ -178,7 +195,7 @@ namespace Explorer
         private void OnRenameItemClick(object sender, EventArgs e)
         {
             bool isFolder;
-            string path = explorer.Path + '\\' + FileListBox.SelectedItem;
+            string path = elementPaths[FileListBox.SelectedIndex];
             if (Directory.Exists(path))
             {
                 isFolder = true;
