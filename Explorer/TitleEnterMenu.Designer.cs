@@ -42,6 +42,7 @@
             this.TitleTextBox.Name = "TitleTextBox";
             this.TitleTextBox.Size = new System.Drawing.Size(194, 23);
             this.TitleTextBox.TabIndex = 1;
+            this.TitleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.OnTitleTextBoxKeyPress);
             // 
             // IconsImageList
             // 

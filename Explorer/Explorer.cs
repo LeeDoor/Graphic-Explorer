@@ -118,7 +118,8 @@ namespace Explorer
 
         public void CreateFile(string file)
         {
-            File.Create(Path + file + ".txt");
+            var a = File.Create(Path + '\\' + file);
+            //a.Dispose();
         }
     }
 }

@@ -13,13 +13,14 @@ namespace Explorer
     public partial class TitleEnterMenu : Form
     {
         private bool isFolder;
+        public string title;
 
         public TitleEnterMenu(bool isFolder)
         {
             InitializeComponent();
             this.isFolder = isFolder;
-
-            IconPictureBox.Image = Image.FromFile("\\images\\" + (isFolder?"folder.png":"text.png"));
+            title = (isFolder ? "new folder" : "new text file.txt");
+            IconPictureBox.Image = Image.FromFile(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "\\images\\" + (isFolder?"folder.png":"text.png"));
         }
 
         private void TitleEnterMenu_Load(object sender, EventArgs e)
@@ -27,9 +28,16 @@ namespace Explorer
 
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void OnTitleTextBoxKeyPress(object sender, KeyPressEventArgs e)
         {
-
+            if(e.KeyChar == '\r')
+            {
+                DialogResult = DialogResult.OK;
+                title = TitleTextBox.Text;
+                if (!isFolder)
+                    title += ".txt";
+                Close();
+            }
         }
     }
 }

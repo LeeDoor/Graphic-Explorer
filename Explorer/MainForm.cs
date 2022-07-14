@@ -102,15 +102,30 @@ namespace Explorer
         #region Context menu buttons
         private void OnCreateFolderMenuItemClick(object sender, EventArgs e)
         {
-            
-            explorer.CreateFolder("new folder");
-            UpdateElements();
+            using (var form = new TitleEnterMenu(true))
+            {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    string title = form.title;
+                    explorer.CreateFolder(title);
+                    UpdateElements();
+                }
+            }
         }
 
         private void OnCreateFileMenuItemClick(object sender, EventArgs e)
         {
-            explorer.CreateFile("new text file");
-            UpdateElements();
+            using (var form = new TitleEnterMenu(false))
+            {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    string title = form.title;
+                    explorer.CreateFile(title);
+                    UpdateElements();
+                }
+            }
         }
         #endregion
     }
