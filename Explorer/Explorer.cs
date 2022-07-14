@@ -131,6 +131,10 @@ namespace Explorer
             file.Dispose();
         }
 
+        /// <summary>
+        /// defines, is it file or folder, and deletes it
+        /// </summary>
+        /// <param name="name"></param>
         public void Delete(string name)
         {
             string path = Path + '\\' + name;
@@ -143,12 +147,21 @@ namespace Explorer
                 DeleteFile(path);
             }
         }
+
+        /// <summary>
+        /// deletes folder on this path
+        /// </summary>
+        /// <param name="path">path to folder</param>
         private void DeleteFolder(string path)
         {
             if (Directory.Exists(path))
                 Directory.Delete(path);
         }
 
+        /// <summary>
+        /// deletes file on this path
+        /// </summary>
+        /// <param name="path">path to file</param>
         private void DeleteFile(string path)
         {
             if (File.Exists(path))

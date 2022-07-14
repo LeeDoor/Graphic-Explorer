@@ -170,6 +170,11 @@ namespace Explorer
             InfoItem.Click += OnInfoItemClick;
         }
 
+        /// <summary>
+        /// DELETE clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnDeleteItemClick(object sender, EventArgs e)
         {
             if(FileListBox.SelectedItem is string name)
