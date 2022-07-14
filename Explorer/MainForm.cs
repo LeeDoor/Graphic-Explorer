@@ -164,10 +164,42 @@ namespace Explorer
 
             ElementContextMenu.Items.AddRange(new[] { RenameItem, DeleteItem, CopyItem, InfoItem });
 
-            //RenameItem.Click += 
+            RenameItem.Click += OnRenameItemClick;
             DeleteItem.Click += OnDeleteItemClick;
             //CopyItem.Click   += 
             InfoItem.Click += OnInfoItemClick;
+        }
+
+        private void OnRenameItemClick(object sender, EventArgs e)
+        {
+            bool isFolder;
+            string path = explorer.Path + '\\' + FileListBox.SelectedItem;
+            if (Directory.Exists(path))
+            {
+                isFolder = true;
+            }
+            else if (File.Exists(path))
+            {
+                isFolder = false;
+            }
+            else return;
+            using (var form = new TitleEnterMenu(isFolder))
+            {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    string title = form.title;
+                    if (isFolder)
+                    {
+                        Directory.Move(path, explorer.Path + '\\' + title);
+                    }
+                    else
+                    {
+                        File.Move(path, explorer.Path + '\\' + title);
+                    }
+                    UpdateElements();
+                }
+            }
         }
 
         /// <summary>
