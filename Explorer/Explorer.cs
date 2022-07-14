@@ -130,5 +130,29 @@ namespace Explorer
             var file = File.Create(Path + '\\' + fileName);
             file.Dispose();
         }
+
+        public void Delete(string name)
+        {
+            string path = Path + '\\' + name;
+            if (Directory.Exists(path))
+            {
+                DeleteFolder(path);
+            }
+            else if (File.Exists(path))
+            {
+                DeleteFile(path);
+            }
+        }
+        private void DeleteFolder(string path)
+        {
+            if (Directory.Exists(path))
+                Directory.Delete(path);
+        }
+
+        private void DeleteFile(string path)
+        {
+            if (File.Exists(path))
+                File.Delete(path);
+        }
     }
 }

@@ -123,6 +123,20 @@ namespace Explorer
             }
             AddCommonButtonsContext();
         }
+        
+        /// <summary>
+        /// adds buttons to context menu even if we dont have any selected element
+        /// </summary>
+        private void AddCommonButtonsContext()
+        {
+            ToolStripMenuItem createFolderItem = new ToolStripMenuItem("create folder");
+            ToolStripMenuItem createFileItem = new ToolStripMenuItem("create text file");
+
+            ElementContextMenu.Items.AddRange(new[] { createFolderItem, createFileItem });
+
+            createFolderItem.Click += OnCreateFolderItemClick;
+            createFileItem.Click += OnCreateFileItemClick;
+        }
 
         /// <summary>
         /// adds buttons to context menu if we have file as selected item
@@ -151,23 +165,18 @@ namespace Explorer
             ElementContextMenu.Items.AddRange(new[] { RenameItem, DeleteItem, CopyItem, InfoItem });
 
             //RenameItem.Click += 
-            //DeleteItem.Click += 
+            DeleteItem.Click += OnDeleteItemClick;
             //CopyItem.Click   += 
             InfoItem.Click += OnInfoItemClick;
         }
 
-        /// <summary>
-        /// adds buttons to context menu even if we dont have any selected element
-        /// </summary>
-        private void AddCommonButtonsContext()
+        private void OnDeleteItemClick(object sender, EventArgs e)
         {
-            ToolStripMenuItem createFolderItem = new ToolStripMenuItem("create folder");
-            ToolStripMenuItem createFileItem = new ToolStripMenuItem("create text file");
-
-            ElementContextMenu.Items.AddRange(new[] { createFolderItem, createFileItem });
-
-            createFolderItem.Click += OnCreateFolderItemClick;
-            createFileItem.Click += OnCreateFileItemClick;
+            if(FileListBox.SelectedItem is string name)
+            {
+                explorer.Delete(name);
+                UpdateElements();
+            }
         }
 
         /// <summary>
