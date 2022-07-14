@@ -155,7 +155,9 @@ namespace Explorer
         private void DeleteFolder(string path)
         {
             if (Directory.Exists(path))
-                Directory.Delete(path);
+            {
+                Directory.Delete(path, true);
+            }
         }
 
         /// <summary>

@@ -170,6 +170,11 @@ namespace Explorer
             InfoItem.Click += OnInfoItemClick;
         }
 
+        /// <summary>
+        /// RENAME clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnRenameItemClick(object sender, EventArgs e)
         {
             bool isFolder;
