@@ -152,14 +152,12 @@ namespace Explorer
         {
             ToolStripMenuItem RenameItem = new ToolStripMenuItem("rename");
             ToolStripMenuItem DeleteItem = new ToolStripMenuItem("delete");
-            ToolStripMenuItem CopyItem = new ToolStripMenuItem("copy");
             ToolStripMenuItem InfoItem = new ToolStripMenuItem("features");
 
-            ElementContextMenu.Items.AddRange(new[] { RenameItem, DeleteItem, CopyItem, InfoItem });
+            ElementContextMenu.Items.AddRange(new[] { RenameItem, DeleteItem, InfoItem });
 
             RenameItem.Click += OnRenameItemClick;
             DeleteItem.Click += OnDeleteItemClick;
-            //CopyItem.Click   += 
             InfoItem.Click += OnInfoItemClick;
         }
 
