@@ -101,6 +101,12 @@ namespace Explorer
         }
 
         #region Context menu buttons
+
+        /// <summary>
+        /// when context menu opens, sets all buttons according to selected item if it is
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnElementContextMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ElementContextMenu.Items.Clear();
@@ -118,7 +124,9 @@ namespace Explorer
             AddCommonButtonsContext();
         }
 
-
+        /// <summary>
+        /// adds buttons to context menu if we have file as selected item
+        /// </summary>
         private void AddFileButtonsContext()
         {
             ToolStripMenuItem OpenItem = new ToolStripMenuItem("open");
@@ -130,6 +138,9 @@ namespace Explorer
             //OpenNotepadItem.Click = 
         }
 
+        /// <summary>
+        /// adds buttons to context menu if we have anything selected 
+        /// </summary>
         private void AddSelectedButtonsContext()
         {
             ToolStripMenuItem RenameItem = new ToolStripMenuItem("rename");
@@ -145,6 +156,9 @@ namespace Explorer
             InfoItem.Click += OnInfoItemClick;
         }
 
+        /// <summary>
+        /// adds buttons to context menu even if we dont have any selected element
+        /// </summary>
         private void AddCommonButtonsContext()
         {
             ToolStripMenuItem createFolderItem = new ToolStripMenuItem("create folder");
@@ -156,6 +170,11 @@ namespace Explorer
             createFileItem.Click += OnCreateFileItemClick;
         }
 
+        /// <summary>
+        /// CREATE FOLDER clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnCreateFolderItemClick(object sender, EventArgs e)
         {
             using (var form = new TitleEnterMenu(true))
@@ -170,6 +189,11 @@ namespace Explorer
             }
         }
 
+        /// <summary>
+        /// CREATE FILE clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnCreateFileItemClick(object sender, EventArgs e)
         {
             using (var form = new TitleEnterMenu(false))
@@ -184,6 +208,11 @@ namespace Explorer
             }
         }
 
+        /// <summary>
+        /// FEATURES clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnInfoItemClick(object sender, EventArgs e)
         {
             if(elementPaths[FileListBox.SelectedIndex] is string path)

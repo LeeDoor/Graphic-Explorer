@@ -61,13 +61,18 @@ namespace Explorer
         /// <returns>returns long data with size of folder</returns>
         private long CountFolderLength(string path)
         {
-            long totalSize;
+            long totalSize = 0;
             DirectoryInfo info = new DirectoryInfo(path);
-            totalSize = info.EnumerateFiles().Sum(file => file.Length);
-            foreach(var folder in info.EnumerateDirectories())
+            try
             {
-                totalSize += CountFolderLength(folder.FullName);
+                totalSize += info.EnumerateFiles().Sum(file => file.Length);
             }
+            catch{ }
+            try
+            {
+                totalSize += info.EnumerateDirectories().Sum(folder => CountFolderLength(folder.FullName));
+            }
+            catch { }
             return totalSize;
         }
 
@@ -89,7 +94,7 @@ namespace Explorer
             creationTime.Text = directory.CreationTime.ToString();
 
             Label folderLength = new Label();
-            folderLength.Text = CountFolderLength(path).ToString();
+            folderLength.Text = GetNormalSize(CountFolderLength(path));
 
             valueLayoutPanel.Controls.AddRange(new[] { fullPath, lastWriteTime, creationTime, folderLength });
 
@@ -127,7 +132,7 @@ namespace Explorer
             creationTime.Text = file.CreationTime.ToString();
 
             Label fileLength = new Label();
-            fileLength.Text = file.Length.ToString();
+            fileLength.Text = GetNormalSize(file.Length);
 
             valueLayoutPanel.Controls.AddRange(new[] { fullPath, lastWriteTime, creationTime, fileLength });
 
@@ -144,6 +149,25 @@ namespace Explorer
             fileLengthValue.Text = "file size: ";
 
             propertyLayoutPanel.Controls.AddRange(new[] { fullPathValue, lastWriteTimeValue, creationTimeValue, fileLengthValue });
+        }
+
+        /// <summary>
+        /// converts given amount of bytes to string data info
+        /// </summary>
+        /// <param name="size">long byte file size</param>
+        /// <returns>string short info about file size</returns>
+        private string GetNormalSize(long size)
+        {
+            string result = "";
+            string[] names = new string[] { "B", "KB", "MB", "GB" };
+
+            foreach(var name in names)
+            {
+                result += (size % 1024).ToString() + name + " ";
+                size /= 1024;
+                if (size == 0) break;
+            }
+            return result;
         }
     }
 }
