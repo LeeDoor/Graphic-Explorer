@@ -116,10 +116,10 @@ namespace Explorer
             Directory.CreateDirectory(Path + '\\' + folderName);
         }
 
-        public void CreateFile(string file)
+        public void CreateFile(string fileName)
         {
-            var a = File.Create(Path + '\\' + file);
-            //a.Dispose();
+            var file = File.Create(Path + '\\' + fileName);
+            file.Dispose();
         }
     }
 }

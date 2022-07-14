@@ -26,8 +26,9 @@ namespace Explorer
         {
             InitializeComponent();
             explorer = new Explorer();
+            elementPaths = new string[0];
         }
-        
+
         /// <summary>
         /// function updates elements in listbox
         /// </summary>
@@ -63,7 +64,7 @@ namespace Explorer
         {
             if(FileListBox.SelectedItems.Count != 0)
             {
-                if(FileListBox.SelectedItem is string newPath)
+                if(FileListBox.SelectedItem is string)
                 {
                     explorer.Path = elementPaths[FileListBox.SelectedIndex];
                     UpdateElements();
@@ -100,6 +101,61 @@ namespace Explorer
         }
 
         #region Context menu buttons
+        private void OnElementContextMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ElementContextMenu.Items.Clear();
+            if (FileListBox.SelectedItems.Count > 0)
+            {
+                if(FileListBox.SelectedItem is string)
+                {
+                    if (File.Exists(elementPaths[FileListBox.SelectedIndex]))
+                    {
+                        AddFileButtonsContext();
+                    }
+                }
+                AddSelectedButtonsContext();
+            }
+            AddCommonButtonsContext();
+        }
+
+
+        private void AddFileButtonsContext()
+        {
+            ToolStripMenuItem OpenItem = new ToolStripMenuItem("open");
+            ToolStripMenuItem OpenNotepadItem = new ToolStripMenuItem("open with notepad");
+
+            ElementContextMenu.Items.AddRange(new[] { OpenItem, OpenNotepadItem });
+
+            //OpenItem.Click = 
+            //OpenNotepadItem.Click = 
+        }
+
+        private void AddSelectedButtonsContext()
+        {
+            ToolStripMenuItem RenameItem = new ToolStripMenuItem("rename");
+            ToolStripMenuItem DeleteItem = new ToolStripMenuItem("delete");
+            ToolStripMenuItem CopyItem  = new ToolStripMenuItem("copy");
+            ToolStripMenuItem InfoItem  = new ToolStripMenuItem("features");
+
+            ElementContextMenu.Items.AddRange(new[] { RenameItem, DeleteItem, CopyItem, InfoItem });
+
+            //RenameItem.Click = 
+            //DeleteItem.Click = 
+            //CopyItem.Click   = 
+            //InfoItem.Click   = 
+        }
+
+        private void AddCommonButtonsContext()
+        {
+            ToolStripMenuItem createFolderItem = new ToolStripMenuItem("create folder");
+            ToolStripMenuItem createFileItem = new ToolStripMenuItem("create text file");
+
+            ElementContextMenu.Items.AddRange(new[] { createFolderItem, createFileItem });
+
+            createFolderItem.Click += OnCreateFolderMenuItemClick;
+            createFileItem.Click += OnCreateFileMenuItemClick;
+        }
+
         private void OnCreateFolderMenuItemClick(object sender, EventArgs e)
         {
             using (var form = new TitleEnterMenu(true))

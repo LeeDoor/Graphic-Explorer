@@ -70,6 +70,7 @@
             this.CreateFileMenuItem});
             this.ElementContextMenu.Name = "ElementContextMenu";
             this.ElementContextMenu.Size = new System.Drawing.Size(190, 70);
+            this.ElementContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.OnElementContextMenuOpening);
             // 
             // CreateFolderMenuItem
             // 
