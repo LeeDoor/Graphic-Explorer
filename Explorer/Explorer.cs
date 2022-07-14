@@ -169,5 +169,80 @@ namespace Explorer
             if (File.Exists(path))
                 File.Delete(path);
         }
+
+        /// <summary>
+        /// pastes file or folder from given directory
+        /// </summary>
+        /// <param name="copyBuff">directory of copying file</param>
+        public void Paste(string copyBuff)
+        {
+            if (File.Exists(copyBuff))
+            {
+                FileInfo from = new FileInfo(copyBuff);
+                FileInfo to = new FileInfo(Path + "\\" + from.Name);
+                PasteFile(from, to);
+            }
+            else if (Directory.Exists(copyBuff))
+            {
+
+                DirectoryInfo from = new DirectoryInfo(copyBuff);
+                DirectoryInfo to = new DirectoryInfo(Path + "\\" + from.Name);
+                if (drives.Where(drive => drive.Name == from.Name || drive.Name == to.Name).FirstOrDefault() != null) return;
+                string adding = "";
+                while (to.Exists)
+                {
+                    adding += "copied ";
+                    to = new DirectoryInfo(Path + "\\" + adding + from.Name);
+                }
+                PasteFolder(from, to);
+            }
+        }
+
+        /// <summary>
+        /// pastes folder to current directory
+        /// </summary>
+        /// <param name="from">directory of copying file</param>
+        /// <param name="to">pasting directory</param>
+        private void PasteFolder(DirectoryInfo from, DirectoryInfo to)
+        {
+            to.Create();
+
+            try
+            {
+                foreach(var file in from.GetFiles())
+                {
+                    file.CopyTo(to.FullName + "\\" + file.Name);
+                }
+            }
+            catch { }
+
+            try
+            {
+                foreach (var folder in from.GetDirectories())
+                {
+                    PasteFolder(folder, new DirectoryInfo(to.FullName + "\\" + folder.Name));
+                }
+            }
+            catch { }
+
+        }
+
+        /// <summary>
+        /// pastes file to given directory
+        /// </summary>
+        /// <param name="from">directory of copying file</param>
+        /// <param name="to">pasting directory</param>
+        private void PasteFile(FileInfo from, FileInfo to)
+        {
+            string adding = "";
+            DirectoryInfo toDir = new DirectoryInfo(to.Directory.FullName);
+            var files = toDir.EnumerateFiles();
+            while (files.Where(file=>file.FullName == to.Directory + "\\" + adding + to.Name).FirstOrDefault() != null)
+            {
+                adding += "copied ";
+                files = toDir.EnumerateFiles();
+            }
+            File.Copy(from.FullName, to.Directory + "\\" + adding + to.Name);
+        }
     }
 }

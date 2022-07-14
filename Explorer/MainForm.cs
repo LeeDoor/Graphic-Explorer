@@ -23,6 +23,8 @@ namespace Explorer
         /// </summary>
         private string[] elementPaths;
 
+        private string copyBuff;
+
         public MainForm()
         {
             InitializeComponent();
@@ -138,11 +140,13 @@ namespace Explorer
         {
             ToolStripMenuItem createFolderItem = new ToolStripMenuItem("create folder");
             ToolStripMenuItem createFileItem = new ToolStripMenuItem("create text file");
+            ToolStripMenuItem PasteItem = new ToolStripMenuItem("paste");
 
-            ElementContextMenu.Items.AddRange(new[] { createFolderItem, createFileItem });
+            ElementContextMenu.Items.AddRange(new[] { createFolderItem, createFileItem, PasteItem });
 
             createFolderItem.Click += OnCreateFolderItemClick;
             createFileItem.Click += OnCreateFileItemClick;
+            PasteItem.Click += OnPasteItemClick;
         }
 
         /// <summary>
@@ -152,12 +156,14 @@ namespace Explorer
         {
             ToolStripMenuItem RenameItem = new ToolStripMenuItem("rename");
             ToolStripMenuItem DeleteItem = new ToolStripMenuItem("delete");
+            ToolStripMenuItem CopyItem = new ToolStripMenuItem("copy");
             ToolStripMenuItem InfoItem = new ToolStripMenuItem("features");
 
-            ElementContextMenu.Items.AddRange(new[] { RenameItem, DeleteItem, InfoItem });
+            ElementContextMenu.Items.AddRange(new[] { RenameItem, DeleteItem, CopyItem, InfoItem });
 
             RenameItem.Click += OnRenameItemClick;
             DeleteItem.Click += OnDeleteItemClick;
+            CopyItem.Click += OnCopyItemClick;
             InfoItem.Click += OnInfoItemClick;
         }
 
@@ -173,6 +179,30 @@ namespace Explorer
 
             OpenItem.Click += OnOpenItemClick;
             OpenNotepadItem.Click += OnOpenNotepadItemClick;
+        }
+
+        /// <summary>
+        /// PASTE click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnPasteItemClick(object sender, EventArgs e)
+        {
+            if(string.IsNullOrEmpty(copyBuff))
+                return;
+
+            explorer.Paste(copyBuff);
+            UpdateElements();
+        }
+
+        /// <summary>
+        /// COPY clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnCopyItemClick(object sender, EventArgs e)
+        {
+            copyBuff = elementPaths[FileListBox.SelectedIndex];
         }
 
         /// <summary>
